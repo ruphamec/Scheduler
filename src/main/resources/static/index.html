@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Personal Scheduler</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div>
+        <h1>Schedule Hub</h1>
+        <p class="subtitle">Plan your days across desktop & mobile</p>
+      </div>
+      <button id="openModalBtn" class="btn primary-btn">+ New Event</button>
+    </header>
+
+    <!-- Filter / Stats Bar -->
+    <section class="filter-bar">
+      <div class="filter-group">
+        <label for="categoryFilter">Category:</label>
+        <select id="categoryFilter">
+          <option value="ALL">All Categories</option>
+          <option value="Work">Work</option>
+          <option value="Personal">Personal</option>
+          <option value="Study">Study</option>
+          <option value="Health">Health</option>
+        </select>
+      </div>
+      <div id="statsCount" class="stats-badge">0 Events</div>
+    </section>
+
+    <!-- Schedule Event List -->
+    <main>
+      <div id="eventsContainer" class="events-grid">
+        <!-- Event cards are injected here by app.js -->
+      </div>
+      <div id="emptyState" class="empty-state hidden">
+        <p>No events scheduled. Click "+ New Event" to get started!</p>
+      </div>
+    </main>
+  </div>
+
+  <!-- Create/Edit Modal -->
+  <div id="eventModal" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modalTitle">New Event</h2>
+        <button id="closeModalBtn" class="icon-btn">&times;</button>
+      </div>
+      <form id="eventForm">
+        <input type="hidden" id="eventId" />
+        
+        <div class="form-group">
+          <label for="title">Title *</label>
+          <input type="text" id="title" required placeholder="e.g. Design review" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="category">Category</label>
+            <select id="category">
+              <option value="Work">Work</option>
+              <option value="Personal">Personal</option>
+              <option value="Study">Study</option>
+              <option value="Health">Health</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="completed">Status</label>
+            <select id="completed">
+              <option value="false">Pending</option>
+              <option value="true">Completed</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="startTime">Start Date & Time *</label>
+            <input type="datetime-local" id="startTime" required />
+          </div>
+          <div class="form-group">
+            <label for="endTime">End Date & Time</label>
+            <input type="datetime-local" id="endTime" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea id="description" rows="3" placeholder="Add extra notes or links..."></textarea>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" id="cancelBtn" class="btn secondary-btn">Cancel</button>
+          <button type="submit" class="btn primary-btn">Save Event</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
