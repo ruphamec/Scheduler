@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.github.ruphamec.scheduler.dto.EventRequest;
 import io.github.ruphamec.scheduler.model.ScheduleEvent;
 import io.github.ruphamec.scheduler.repository.EventRepository;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/events")
@@ -45,22 +47,30 @@ public class EventController {
 
     // 3. POST (Create): http://localhost:8080/api/events
     @PostMapping
-    public ResponseEntity<ScheduleEvent> createEvent(@RequestBody ScheduleEvent event) {
-        ScheduleEvent savedEvent = eventRepository.save(event);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedEvent);
+    public ResponseEntity<ScheduleEvent> createEvent(@Valid @RequestBody EventRequest request) {
+        ScheduleEvent event = new ScheduleEvent();
+        event.setTitle(request.title());
+        event.setDescription(request.description());
+        event.setStartTime(request.startTime());
+        event.setEndTime(request.endTime());
+        event.setCompleted(request.completed());
+        event.setCategory(request.category());
+
+        ScheduleEvent saved = eventRepository.save(event);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
     // 4. PUT (Update): http://localhost:8080/api/events/1
     @PutMapping("/{id}")
-    public ResponseEntity<ScheduleEvent> updateEvent(@PathVariable Long id, @RequestBody ScheduleEvent updatedData) {
+    public ResponseEntity<ScheduleEvent> updateEvent(@PathVariable Long id, @Valid @RequestBody EventRequest request) {
         return eventRepository.findById(id)
                 .map(existingEvent -> {
-                    existingEvent.setTitle(updatedData.getTitle());
-                    existingEvent.setDescription(updatedData.getDescription());
-                    existingEvent.setStartTime(updatedData.getStartTime());
-                    existingEvent.setEndTime(updatedData.getEndTime());
-                    existingEvent.setCompleted(updatedData.isCompleted());
-                    existingEvent.setCategory(updatedData.getCategory());
+                    existingEvent.setTitle(request.title());
+                    existingEvent.setDescription(request.description());
+                    existingEvent.setStartTime(request.startTime());
+                    existingEvent.setEndTime(request.endTime());
+                    existingEvent.setCompleted(request.completed());
+                    existingEvent.setCategory(request.category());
                     
                     ScheduleEvent saved = eventRepository.save(existingEvent);
                     return ResponseEntity.ok(saved);
