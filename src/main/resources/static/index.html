@@ -7,6 +7,13 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- PWA & Mobile Meta Tags -->
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#4f46e5" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
 </head>
 <body>
   <div class="app-container">
@@ -33,14 +40,48 @@
       <div id="statsCount" class="stats-badge">0 Events</div>
     </section>
 
-    <!-- Schedule Event List -->
+    <!-- View Switcher & Navigation -->
+    <section class="toolbar">
+      <div class="view-toggles">
+        <button id="viewGridBtn" class="toggle-btn active">Month Grid</button>
+        <button id="viewTimelineBtn" class="toggle-btn">Day Timeline</button>
+        <button id="viewListBtn" class="toggle-btn">Agenda Cards</button>
+      </div>
+
+      <div class="date-navigator">
+        <button id="prevPeriodBtn" class="nav-btn">&larr;</button>
+        <span id="currentPeriodLabel" class="period-label"></span>
+        <button id="nextPeriodBtn" class="nav-btn">&rarr;</button>
+        <button id="todayBtn" class="btn secondary-btn btn-small">Today</button>
+      </div>
+    </section>
+
+    <!-- Main Content Views -->
     <main>
-      <div id="eventsContainer" class="events-grid">
-        <!-- Event cards are injected here by app.js -->
-      </div>
-      <div id="emptyState" class="empty-state hidden">
-        <p>No events scheduled. Click "+ New Event" to get started!</p>
-      </div>
+      <!-- 1. MONTH CALENDAR VIEW -->
+      <section id="calendarView">
+        <div class="calendar-weekdays">
+          <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+        </div>
+        <div id="calendarGrid" class="calendar-grid">
+          <!-- Days populated dynamically by app.js -->
+        </div>
+      </section>
+
+      <!-- 2. DAY TIMELINE VIEW -->
+      <section id="timelineView" class="hidden">
+        <div id="timelineHours" class="timeline-container">
+          <!-- Hourly rows populated dynamically by app.js -->
+        </div>
+      </section>
+
+      <!-- 3. AGENDA LIST VIEW (Existing Card Grid) -->
+      <section id="listView" class="hidden">
+        <div id="eventsContainer" class="events-grid"></div>
+        <div id="emptyState" class="empty-state hidden">
+          <p>No events scheduled. Click "+ New Event" to get started!</p>
+        </div>
+      </section>
     </main>
   </div>
 
